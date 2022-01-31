@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mypuzzle/breakpoints.dart';
 import 'package:mypuzzle/models/user_id.dart';
 import 'package:mypuzzle/screens/reception.dart';
 
@@ -16,7 +17,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= 600) {
+        if (constraints.maxWidth >= desktopBreakpoint) {
           return const DesktopLayout();
         } else {
           return const MobileLayout();
@@ -39,8 +40,7 @@ class MobileLayout extends StatelessWidget {
         children: [
           const Text('Mobile Version'),
           ElevatedButton(
-            onPressed: () => Navigator.pushNamed(
-              context,
+            onPressed: () => Navigator.of(context).pushNamed(
               Reception.routeName,
               arguments: UserID(id: 'zinzin'),
             ),
