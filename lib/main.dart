@@ -1,15 +1,16 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:mypuzzle/screens/home.dart';
-import 'package:mypuzzle/screens/reception.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mypuzzle/screens/wrapper.dart';
 import 'package:mypuzzle/theme.dart';
 
-void main() => runApp(
-      DevicePreview(
-        enabled: false,
-        builder: (context) => const MyApp(), // Wrap your app
-      ),
-    );
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    const ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -17,23 +18,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      useInheritedMediaQuery: true,
-      locale: DevicePreview.locale(context),
       title: 'Flutter Demo',
       theme: myTheme,
-      initialRoute: Home.routeName,
-      routes: myRoutes,
+      home: const Wrapper(),
       onUnknownRoute: (context) => MaterialPageRoute(
         builder: (context) => const UnknownRoute(),
       ),
     );
   }
 }
-
-Map<String, WidgetBuilder> myRoutes = {
-  Home.routeName: (context) => const Home(),
-  Reception.routeName: (context) => const Reception(),
-};
 
 class UnknownRoute extends StatelessWidget {
   const UnknownRoute({Key? key}) : super(key: key);
@@ -45,7 +38,7 @@ class UnknownRoute extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           const Text('Woops ! This route does not exist'),
           ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, Home.routeName),
+            onPressed: () => Navigator.of(context).pushNamed('/'),
             child: const Text('Return to home'),
           ),
         ]),
