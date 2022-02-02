@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mypuzzle/provider/view_index_provider.dart';
+
+import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
 import 'package:mypuzzle/screens/import_puzzle.dart';
 import 'package:mypuzzle/screens/random_puzzle.dart';
@@ -49,8 +50,8 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
       body: AnimatedBuilder(
           animation: _controller,
           builder: (context, _) {
-            double slide = 250.0 * _controller.value;
-            double scale = 1 - (_controller.value * 0.3);
+            double slide = 175.0 * _controller.value;
+            double scale = 1 - (_controller.value * 0.2);
             return Stack(
               children: [
                 myCustomDrawer(index, notifier),
@@ -59,15 +60,21 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
                     ..translate(slide)
                     ..scale(scale),
                   alignment: Alignment.centerLeft,
-                  child: Scaffold(
-                      appBar: AppBar(
-                        leading: IconButton(
-                            onPressed: () {
-                              toggle();
-                            },
-                            icon: const Icon(Icons.bubble_chart)),
-                      ),
-                      body: screens.elementAt(index)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(100.0 * _controller.value),
+                        bottomLeft: Radius.circular(100.0 * _controller.value)),
+                    // clipper: MyClipper(controllerValue: _controller.value),
+                    child: Scaffold(
+                        appBar: AppBar(
+                          leading: IconButton(
+                              onPressed: () {
+                                toggle();
+                              },
+                              icon: const Icon(Icons.bubble_chart)),
+                        ),
+                        body: screens.elementAt(index)),
+                  ),
                 )
               ],
             );
@@ -76,68 +83,82 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
   }
 
   myCustomDrawer(int index, ViewIndexProvider notifier) {
-    return Scaffold(
-      body: Container(
-        color: Colors.blue[50],
-        child: ListView(
-          children: [
-            Container(
-              height: 100,
-              width: 50,
-              color: Colors.grey,
-              child: const Center(child: Text('Logo or Big Title')),
+    return Container(
+      color: Colors.blue[50],
+      child: ListView(
+        children: [
+          const FlutterLogo(
+            size: 50.0,
+          ),
+          ListTile(
+            title: Text(
+              'Random Puzzle',
+              style: TextStyle(color: index == 0 ? Colors.blue : Colors.black),
             ),
-            ListTile(
-              title: Text(
-                'Random Puzzle',
-                style:
-                    TextStyle(color: index == 0 ? Colors.blue : Colors.black),
-              ),
-              onTap: () {
-                toggle();
+            onTap: () {
+              toggle();
 
-                notifier.changeIndex(0);
-              },
+              notifier.changeIndex(0);
+            },
+          ),
+          ListTile(
+            title: Text(
+              'Import Puzzle',
+              style: TextStyle(color: index == 1 ? Colors.blue : Colors.black),
             ),
-            ListTile(
-              title: Text(
-                'Import Puzzle',
-                style:
-                    TextStyle(color: index == 1 ? Colors.blue : Colors.black),
-              ),
-              onTap: () {
-                toggle();
+            onTap: () {
+              toggle();
 
-                notifier.changeIndex(1);
-              },
+              notifier.changeIndex(1);
+            },
+          ),
+          ListTile(
+            title: Text(
+              'Stats',
+              style: TextStyle(color: index == 2 ? Colors.blue : Colors.black),
             ),
-            ListTile(
-              title: Text(
-                'Stats',
-                style:
-                    TextStyle(color: index == 2 ? Colors.blue : Colors.black),
-              ),
-              onTap: () {
-                toggle();
+            onTap: () {
+              toggle();
 
-                notifier.changeIndex(2);
-              },
+              notifier.changeIndex(2);
+            },
+          ),
+          ListTile(
+            title: Text(
+              'About',
+              style: TextStyle(color: index == 3 ? Colors.blue : Colors.black),
             ),
-            ListTile(
-              title: Text(
-                'About',
-                style:
-                    TextStyle(color: index == 3 ? Colors.blue : Colors.black),
-              ),
-              onTap: () {
-                toggle();
+            onTap: () {
+              toggle();
 
-                notifier.changeIndex(3);
-              },
-            ),
-          ],
-        ),
+              notifier.changeIndex(3);
+            },
+          ),
+        ],
       ),
     );
+  }
+}
+
+class MyClipper extends CustomClipper<Path> {
+  final double controllerValue;
+
+  MyClipper({
+    required this.controllerValue,
+  });
+
+  @override
+  getClip(Size size) {
+    Path path = Path()
+      ..moveTo(size.width, size.height * 15 / 100)
+      ..quadraticBezierTo(
+          -500, size.height / 2, size.width, size.height * 85 / 100)
+      ..close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper oldClipper) {
+    return true;
   }
 }

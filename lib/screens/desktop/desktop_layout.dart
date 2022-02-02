@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mypuzzle/provider/view_index_provider.dart';
+import 'package:mypuzzle/providers/view_index_provider.dart';
 
 import 'package:mypuzzle/screens/about.dart';
 
@@ -27,28 +27,23 @@ class DesktopLayout extends ConsumerWidget {
     return Scaffold(
       body: Row(
         children: [
-          Container(
-            width: 250,
-            decoration: const BoxDecoration(
-              border: Border(
-                right: BorderSide(width: 3.0, color: Colors.lightBlue),
-              ),
-            ),
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 150.0,
-                    width: 150.0,
-                    child: Container(
-                      padding: const EdgeInsets.all(00),
-                      color: Colors.grey,
-                      child: const Text('Logo'),
-                    ),
+          CustomPaint(
+            painter: MyPainter(),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 150.0,
+                  width: 150.0,
+                  child: Container(
+                    padding: const EdgeInsets.all(00),
+                    color: Colors.blue[50],
+                    child: const FlutterLogo(),
                   ),
                 ),
-                SliverList(
-                  delegate: SliverChildListDelegate([
+                SizedBox(
+                  width: 350,
+                  height: 500,
+                  child: ListView(children: [
                     ListTile(
                         title: Text(
                           'Random Puzzle',
@@ -86,5 +81,22 @@ class DesktopLayout extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class MyPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.drawLine(
+        Offset(size.width, 0),
+        Offset(size.width, size.height),
+        Paint()
+          ..color = Colors.black
+          ..strokeWidth = 4);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
