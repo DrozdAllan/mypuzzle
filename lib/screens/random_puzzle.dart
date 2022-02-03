@@ -12,8 +12,14 @@ class RandomPuzzle extends StatefulWidget {
 class _RandomPuzzleState extends State<RandomPuzzle> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('random'),
+    return
+        //  Expanded(
+        //   child:
+        Column(
+      children: [
+        Text('random'),
+      ],
+      //   ),
     );
   }
 }
