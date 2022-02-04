@@ -12,8 +12,12 @@ class ImportPuzzle extends StatefulWidget {
 class _ImportPuzzleState extends State<ImportPuzzle> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('import'),
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24.0),
+        child: Text("Import an image to make it into a puzzle"),
+      ),
+      ElevatedButton(onPressed: () {}, child: Text('Select Image')),
+    ]);
   }
 }

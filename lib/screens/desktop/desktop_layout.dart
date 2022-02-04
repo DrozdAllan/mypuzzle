@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:animations/animations.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
+import 'package:mypuzzle/screens/game.dart';
 import 'package:mypuzzle/screens/import_puzzle.dart';
 import 'package:mypuzzle/screens/random_puzzle.dart';
 import 'package:mypuzzle/screens/stats.dart';
@@ -24,33 +26,21 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     ImportPuzzle(),
     Stats(),
     About(),
+    Game(),
   ];
 
   @override
   Widget build(BuildContext context) {
     final int index = ref.watch(viewIndexProvider);
-
     return Scaffold(
+      backgroundColor: Colors.blue[200],
       body: Row(
         children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: 500,
-                child: Container(
-                  color: Colors.black,
-                ),
-              ),
-              WavedDrawer(
-                index,
-                Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height),
-              ),
-            ],
+          WavedDrawer(
+            index,
+            Size(300.0, MediaQuery.of(context).size.height),
           ),
-          screens.elementAt(index),
+          Expanded(child: screens.elementAt(index)),
         ],
       ),
     );
@@ -92,47 +82,47 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
     return AnimatedBuilder(
       animation: _controller,
       child: Container(
-        color: Colors.blue[100],
+        // impératif de donner une taille au child que tu clip
+        width: widget.size.width,
+        height: MediaQuery.of(context).size.height,
+        color: Colors.blue[50],
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(00),
-              color: Colors.white,
-              child: const FlutterLogo(),
+            const FlutterLogo(
+              size: 64.0,
             ),
             TextButton(
               onPressed: () => notifier.changeIndex(0),
               child: Text(
-                'Random Puzzleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+                'Random Puzzle',
                 style: TextStyle(
                     color: widget.index == 0 ? Colors.blue : Colors.black),
               ),
-            )
-
-            //   ListTile(
-            //       title: Text(
-            //         'Import Puzzle',
-            //         style: TextStyle(
-            //             color:
-            //                 widget.index == 1 ? Colors.blue : Colors.black),
-            //       ),
-            //       onTap: () => notifier.changeIndex(1)),
-            //   ListTile(
-            //       title: Text(
-            //         'Stats',
-            //         style: TextStyle(
-            //             color:
-            //                 widget.index == 2 ? Colors.blue : Colors.black),
-            //       ),
-            //       onTap: () => notifier.changeIndex(2)),
-            //   ListTile(
-            //       title: Text(
-            //         'About',
-            //         style: TextStyle(
-            //             color:
-            //                 widget.index == 3 ? Colors.blue : Colors.black),
-            //       ),
-            //       onTap: () => notifier.changeIndex(3)),
+            ),
+            TextButton(
+              onPressed: () => notifier.changeIndex(1),
+              child: Text(
+                'Import Puzzle',
+                style: TextStyle(
+                    color: widget.index == 1 ? Colors.blue : Colors.black),
+              ),
+            ),
+            TextButton(
+              onPressed: () => notifier.changeIndex(2),
+              child: Text(
+                'Stats',
+                style: TextStyle(
+                    color: widget.index == 2 ? Colors.blue : Colors.black),
+              ),
+            ),
+            TextButton(
+              onPressed: () => notifier.changeIndex(3),
+              child: Text(
+                'About',
+                style: TextStyle(
+                    color: widget.index == 3 ? Colors.blue : Colors.black),
+              ),
+            ),
           ],
         ),
       ),
@@ -147,7 +137,7 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
 
   void _initPoints() {
     _points =
-        List.filled(widget.size.width.toInt(), Offset(0, widget.size.height));
+        List.filled(widget.size.height.toInt(), Offset(0, widget.size.width));
   }
 }
 
@@ -164,9 +154,8 @@ class WaveClipper extends CustomClipper<Path> {
     _makeSinewave(size);
     path.addPolygon(points, false);
 
-//  la ligne du dessous marche pas
-    path.lineTo(size.width, size.height);
     path.lineTo(0.0, size.height);
+    path.lineTo(0.0, 0.0);
     path.close();
 
     return path;
@@ -176,13 +165,13 @@ class WaveClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper oldClipper) => true;
 
   void _makeSinewave(Size size) {
-    final amplitude = size.height / 16;
-    final yOffset = amplitude;
+    final amplitude = size.width / 16;
+    final xOffset = amplitude;
 
-    for (int x = 0; x < size.width; x++) {
-      double y = amplitude * sin(x / 35 + controllerValue) + yOffset;
+    for (int x = 0; x < size.height.toInt(); x++) {
+      double y = amplitude * sin(x / 35 + controllerValue) + xOffset;
 
-      Offset newPoint = Offset(x.toDouble(), y);
+      Offset newPoint = Offset(size.width * 0.85 + y.toDouble(), x.toDouble());
       points[x] = newPoint;
     }
   }

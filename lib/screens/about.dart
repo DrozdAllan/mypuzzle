@@ -12,8 +12,11 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('about'),
-    );
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24.0),
+        child: Text("About maybe wont be implemented"),
+      ),
+    ]);
   }
 }

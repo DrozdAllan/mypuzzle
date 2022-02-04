@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
+import 'package:mypuzzle/screens/game.dart';
 import 'package:mypuzzle/screens/import_puzzle.dart';
 import 'package:mypuzzle/screens/random_puzzle.dart';
 import 'package:mypuzzle/screens/stats.dart';
@@ -40,6 +41,7 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
     ImportPuzzle(),
     Stats(),
     About(),
+    Game(),
   ];
 
   @override
@@ -66,14 +68,18 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
                         bottomLeft: Radius.circular(100.0 * _controller.value)),
                     // clipper: MyClipper(controllerValue: _controller.value),
                     child: Scaffold(
+                        // backgroundColor: Colors.blue[200],
                         appBar: AppBar(
+                          backgroundColor: Colors.blue[50],
                           leading: IconButton(
                               onPressed: () {
                                 toggle();
                               },
                               icon: const Icon(Icons.bubble_chart)),
                         ),
-                        body: screens.elementAt(index)),
+                        body: Container(
+                            color: Colors.blue[200],
+                            child: screens.elementAt(index))),
                   ),
                 )
               ],
