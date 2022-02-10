@@ -45,12 +45,17 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
             bottomLeft: Radius.circular(100.0 * widget.controller.value)),
         child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blue[50],
-            leading: IconButton(
-                onPressed: () {
-                  toggle();
-                },
-                icon: const Icon(Icons.bubble_chart)),
+            backgroundColor: widget.controller.value > 0.4
+                ? Colors.blue[200]
+                : Colors.blue[50],
+            elevation: widget.controller.value > 0.4 ? 0.0 : 4.0,
+            leading: widget.controller.value > 0.4
+                ? null
+                : IconButton(
+                    onPressed: () {
+                      toggle();
+                    },
+                    icon: const Icon(Icons.bubble_chart)),
           ),
           body: Container(
               color: Colors.blue[200], child: screens.elementAt(widget.index)),

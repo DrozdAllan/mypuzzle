@@ -49,8 +49,7 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
             return Stack(
               children: [
                 MobileDrawer(index: index, controller: _controller),
-                // TODO: while drawing
-                // MobileDisplay(index: index, controller: _controller),
+                MobileDisplay(index: index, controller: _controller),
               ],
             );
           }),

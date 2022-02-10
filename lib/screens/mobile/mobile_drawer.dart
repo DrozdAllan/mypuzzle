@@ -27,92 +27,98 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(viewIndexProvider.notifier);
-    final Size siza = Size(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
 
-    return CustomPaint(
-      painter: ClosingWave(),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        // color: Colors.blue[50],
-        child: ListView(
-          children: [
-            const FlutterLogo(
-              size: 50.0,
-            ),
-            ListTile(
-              title: Text(
-                'Random Puzzle',
-                style: TextStyle(
-                    color: widget.index == 0 ? Colors.blue : Colors.black),
+    return AnimatedBuilder(
+        animation: widget.controller,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.35,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const FlutterLogo(
+                size: 80.0,
               ),
-              onTap: () {
-                toggle();
+              ListTile(
+                title: Text(
+                  'Random Puzzle',
+                  style: TextStyle(
+                      color: widget.index == 0 ? Colors.blue : Colors.black),
+                ),
+                onTap: () {
+                  toggle();
 
-                notifier.changeIndex(0);
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Import Puzzle',
-                style: TextStyle(
-                    color: widget.index == 1 ? Colors.blue : Colors.black),
+                  notifier.changeIndex(0);
+                },
               ),
-              onTap: () {
-                toggle();
+              ListTile(
+                title: Text(
+                  'Import Puzzle',
+                  style: TextStyle(
+                      color: widget.index == 1 ? Colors.blue : Colors.black),
+                ),
+                onTap: () {
+                  toggle();
 
-                notifier.changeIndex(1);
-              },
-            ),
-            ListTile(
-              title: Text(
-                'Stats',
-                style: TextStyle(
-                    color: widget.index == 2 ? Colors.blue : Colors.black),
+                  notifier.changeIndex(1);
+                },
               ),
-              onTap: () {
-                toggle();
+              ListTile(
+                title: Text(
+                  'Stats',
+                  style: TextStyle(
+                      color: widget.index == 2 ? Colors.blue : Colors.black),
+                ),
+                onTap: () {
+                  toggle();
 
-                notifier.changeIndex(2);
-              },
-            ),
-            ListTile(
-              title: Text(
-                'About',
-                style: TextStyle(
-                    color: widget.index == 3 ? Colors.blue : Colors.black),
+                  notifier.changeIndex(2);
+                },
               ),
-              onTap: () {
-                toggle();
+              ListTile(
+                title: Text(
+                  'About',
+                  style: TextStyle(
+                      color: widget.index == 3 ? Colors.blue : Colors.black),
+                ),
+                onTap: () {
+                  toggle();
 
-                notifier.changeIndex(3);
-              },
-            ),
-          ],
+                  notifier.changeIndex(3);
+                },
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+        builder: (context, child) {
+          return CustomPaint(
+              painter: ClosingWave(controller: widget.controller),
+              child: child);
+        });
   }
 }
 
 class ClosingWave extends CustomPainter {
+  final AnimationController controller;
+  ClosingWave({
+    required this.controller,
+  });
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
     final myPaint = Paint()
-      ..strokeWidth = 40.4
+      ..strokeWidth = 1.0
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
-      ..color = Colors.blue
-      ..style = PaintingStyle.stroke;
+      ..color = Colors.blue[200]!
+      ..style = PaintingStyle.fill;
 
-    final Rect myRect =
-        Offset(size.width / 2, 0.0) & Size(size.width, size.height);
+    final Rect myRect = Offset(175.0 * controller.value, 0.0) &
+        Size(size.width * 5, size.height);
 
-    canvas.drawOval(myRect, myPaint);
-    // canvas.drawArc(Rect.largest, 0.0, 90.0, true, myPaint);
-    // canvas.drawPoints(PointMode.polygon, points, myPaint);
+    final myPath = Path()
+      ..addRRect(RRect.fromRectAndRadius(myRect, const Radius.circular(120.0)));
+
+    canvas.drawPath(myPath, myPaint);
   }
 
   @override

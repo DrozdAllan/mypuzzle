@@ -47,6 +47,7 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
   }
 }
 
+// TODO: add more smooth style to the wave
 class WavedDrawer extends ConsumerStatefulWidget {
   final int index;
   final Size size;
@@ -65,8 +66,7 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        vsync: this, upperBound: 2 * pi, duration: const Duration(seconds: 5));
-    _controller.repeat();
+        vsync: this, upperBound: 2 * pi, duration: const Duration(seconds: 1));
     _initPoints();
   }
 
@@ -92,7 +92,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
               size: 64.0,
             ),
             TextButton(
-              onPressed: () => notifier.changeIndex(0),
+              onPressed: () {
+                _controller.forward().whenComplete(() => _controller.reset());
+                notifier.changeIndex(0);
+              },
               child: Text(
                 'Random Puzzle',
                 style: TextStyle(
@@ -100,7 +103,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
               ),
             ),
             TextButton(
-              onPressed: () => notifier.changeIndex(1),
+              onPressed: () {
+                _controller.forward().whenComplete(() => _controller.reset());
+                notifier.changeIndex(1);
+              },
               child: Text(
                 'Import Puzzle',
                 style: TextStyle(
@@ -108,7 +114,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
               ),
             ),
             TextButton(
-              onPressed: () => notifier.changeIndex(2),
+              onPressed: () {
+                _controller.forward().whenComplete(() => _controller.reset());
+                notifier.changeIndex(2);
+              },
               child: Text(
                 'Stats',
                 style: TextStyle(
@@ -116,7 +125,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
               ),
             ),
             TextButton(
-              onPressed: () => notifier.changeIndex(3),
+              onPressed: () {
+                _controller.forward().whenComplete(() => _controller.reset());
+                notifier.changeIndex(3);
+              },
               child: Text(
                 'About',
                 style: TextStyle(
