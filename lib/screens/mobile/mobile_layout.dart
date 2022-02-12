@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:mypuzzle/providers/view_index_provider.dart';
-import 'package:mypuzzle/screens/about.dart';
-import 'package:mypuzzle/screens/game.dart';
-import 'package:mypuzzle/screens/import_puzzle.dart';
 import 'package:mypuzzle/screens/mobile/mobile_display.dart';
 import 'package:mypuzzle/screens/mobile/mobile_drawer.dart';
-import 'package:mypuzzle/screens/random_puzzle.dart';
-import 'package:mypuzzle/screens/stats.dart';
 
 class MobileLayout extends ConsumerStatefulWidget {
   const MobileLayout({Key? key}) : super(key: key);

@@ -18,12 +18,12 @@ class _GameState extends ConsumerState<Game> {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+        children: const [
           SizedBox(width: 100, height: 100, child: Placeholder()),
           SizedBox(width: 100, height: 100, child: Placeholder()),
         ],
       ),
-      SizedBox(
+      const SizedBox(
         width: 500,
         child: Placeholder(),
       ),

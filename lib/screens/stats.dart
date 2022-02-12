@@ -25,7 +25,7 @@ class _StatsState extends State<Stats> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
-                  return Text('Datetime of Completed');
+                  return const Text('Datetime of Completed');
                 },
                 childCount: 50,
               ),

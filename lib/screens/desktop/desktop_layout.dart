@@ -1,10 +1,7 @@
-import 'dart:developer' as dev;
 import 'dart:math';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
 import 'package:mypuzzle/screens/game.dart';

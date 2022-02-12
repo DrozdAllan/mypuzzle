@@ -17,7 +17,7 @@ class _ImportPuzzleState extends State<ImportPuzzle> {
         padding: EdgeInsets.symmetric(vertical: 24.0),
         child: Text("Import an image to make it into a puzzle"),
       ),
-      ElevatedButton(onPressed: () {}, child: Text('Select Image')),
+      ElevatedButton(onPressed: () {}, child: const Text('Select Image')),
     ]);
   }
 }
