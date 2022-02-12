@@ -1,28 +1,29 @@
 import 'dart:developer';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as imglib;
 
 List<Image> splitImage(
-    {required imglib.Image inputImage,
+    {required List<int> inputImage,
     required int horizontalPieceCount,
     required int verticalPieceCount}) {
-//   imglib.Image image = inputImage as imglib.Image;
-//   log('decoding bytes to imglibg Image...');
-//   imglib.Image image = imglib.Image.fromBytes(1, 1, inputImage);
-//   imglib.Image image = inputImage as imglib.Image;
+  log('decoding bytes to imgLibImage...');
+// 2) List bytes to imgLib.Image
+  imglib.Image zinzin = imglib.Image.fromBytes(1500, 1500, inputImage);
+  inspect(zinzin);
 //   log('bytes decoded to imglibg Image !');
 
-  final int xLength = (inputImage.width / horizontalPieceCount).round();
-  final int yLength = (inputImage.height / verticalPieceCount).round();
+  final int xLength = (zinzin.width / horizontalPieceCount).round();
+  final int yLength = (zinzin.height / verticalPieceCount).round();
   List<imglib.Image> pieceList = [];
 
   log('splitting image into pieces...');
   for (int y = 0; y < verticalPieceCount; y++) {
     for (int x = 0; x < horizontalPieceCount; x++) {
       pieceList.add(
-        imglib.copyCrop(inputImage, x, y, x * xLength, y * yLength),
+        imglib.copyCrop(zinzin, x, y, x * xLength, y * yLength),
       );
     }
   }

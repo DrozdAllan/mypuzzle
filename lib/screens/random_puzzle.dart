@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image/image.dart' as imglib;
@@ -70,11 +71,18 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
 
   void getImage() async {
     XFile? xImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    var zinzin = await File(xImage!.path).readAsBytes();
-    final imglib.Image image = imglib.decodeImage(zinzin)!;
-    // 1) Xfile to Image for web ? càd sans dart:io
 
-// 2) Image widget from flutter to Imglib.image du package Image
+    var bytes = await xImage!.readAsBytes();
+
+    // Image zinzin;
+    // // 1) Xfile to Image for web càd sans dart:io
+    // if (kIsWeb) {
+    //   zinzin = Image.network(xImage!.path);
+    // } else {
+    //   zinzin = Image.file(File(xImage!.path));
+    // }
+
+    // 2) Image widget from flutter to Imglib.image du package Image
     setState(() {
       isLoadingImg = true;
     });
@@ -84,7 +92,7 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
 
     setState(() {
       imagePieces = splitImage(
-          inputImage: image, horizontalPieceCount: 2, verticalPieceCount: 2);
+          inputImage: bytes, horizontalPieceCount: 2, verticalPieceCount: 2);
     });
     inspect(imagePieces);
   }
