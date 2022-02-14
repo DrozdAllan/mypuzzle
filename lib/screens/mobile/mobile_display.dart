@@ -20,7 +20,6 @@ class MobileDisplay extends ConsumerStatefulWidget {
 class _MobileDisplayState extends ConsumerState<MobileDisplay> {
   final List<Widget> screens = const <Widget>[
     RandomPuzzle(),
-    ImportPuzzle(),
     Stats(),
     About(),
     Game(),

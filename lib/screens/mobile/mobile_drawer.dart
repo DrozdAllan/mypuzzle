@@ -39,9 +39,10 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
               ),
               ListTile(
                 title: Text(
-                  'Random Puzzle',
+                  'Game',
                   style: TextStyle(
-                      color: widget.index == 0 ? Colors.blue : Colors.black),
+                      color: widget.index == 0 ? Colors.blue : Colors.black,
+                      fontSize: 36),
                 ),
                 onTap: () {
                   toggle();
@@ -51,9 +52,10 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
               ),
               ListTile(
                 title: Text(
-                  'Import Puzzle',
+                  'Stats',
                   style: TextStyle(
-                      color: widget.index == 1 ? Colors.blue : Colors.black),
+                      color: widget.index == 1 ? Colors.blue : Colors.black,
+                      fontSize: 36),
                 ),
                 onTap: () {
                   toggle();
@@ -63,26 +65,15 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
               ),
               ListTile(
                 title: Text(
-                  'Stats',
+                  'About',
                   style: TextStyle(
-                      color: widget.index == 2 ? Colors.blue : Colors.black),
+                      color: widget.index == 2 ? Colors.blue : Colors.black,
+                      fontSize: 36),
                 ),
                 onTap: () {
                   toggle();
 
                   notifier.changeIndex(2);
-                },
-              ),
-              ListTile(
-                title: Text(
-                  'About',
-                  style: TextStyle(
-                      color: widget.index == 3 ? Colors.blue : Colors.black),
-                ),
-                onTap: () {
-                  toggle();
-
-                  notifier.changeIndex(3);
                 },
               ),
             ],

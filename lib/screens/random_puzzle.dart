@@ -1,13 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image/image.dart' as imglib;
-import 'package:image_picker/image_picker.dart';
+import 'package:mypuzzle/providers/puzzle_provider.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
-import 'package:mypuzzle/services/image_splitter.dart';
 
 class RandomPuzzle extends ConsumerStatefulWidget {
   const RandomPuzzle({Key? key}) : super(key: key);
@@ -19,12 +16,13 @@ class RandomPuzzle extends ConsumerStatefulWidget {
 }
 
 class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
-  List<Image> imagePieces = [];
   bool isLoadingImg = false;
+  int? selectedImg;
 
   @override
   Widget build(BuildContext context) {
-    final notifier = ref.read(viewIndexProvider.notifier);
+    final viewIndexNotifier = ref.read(viewIndexProvider.notifier);
+    final puzzleNotifier = ref.read(puzzleProvider.notifier);
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       const Padding(
         padding: EdgeInsets.symmetric(vertical: 24.0),
@@ -33,67 +31,60 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SizedBox(
-              width: MediaQuery.of(context).size.width / 6,
-              height: 200,
-              child: const Placeholder()),
-          SizedBox(
-              width: MediaQuery.of(context).size.width / 6,
-              height: 200,
-              child: const Placeholder()),
-          if (imagePieces.isEmpty)
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 6,
-                height: 200,
-                child: const Placeholder()),
-          if (imagePieces.isNotEmpty)
-            SizedBox(
-                width: MediaQuery.of(context).size.width / 6,
-                height: 200,
-                child: Image(image: imagePieces[0].image)),
+          Container(
+            decoration: BoxDecoration(
+              border: selectedImg == 1
+                  ? Border.all(color: Colors.red, width: 5.0)
+                  : null,
+            ),
+            width: MediaQuery.of(context).size.width / 6,
+            height: 200,
+            child: GestureDetector(
+              onTap: () => setState(() {
+                selectedImg = 1;
+              }),
+              child: Image.asset('images/frodondejardin.png'),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: selectedImg == 2
+                  ? Border.all(color: Colors.red, width: 5.0)
+                  : null,
+            ),
+            width: MediaQuery.of(context).size.width / 6,
+            height: 200,
+            child: GestureDetector(
+              onTap: () => setState(() {
+                selectedImg = 2;
+              }),
+              child: Image.asset('images/frodondejardin.png'),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: selectedImg == 3
+                  ? Border.all(color: Colors.red, width: 5.0)
+                  : null,
+            ),
+            width: MediaQuery.of(context).size.width / 6,
+            height: 200,
+            child: GestureDetector(
+              onTap: () => setState(() {
+                selectedImg = 3;
+              }),
+              child: Image.asset('images/frodondejardin.png'),
+            ),
+          ),
         ],
       ),
+      // TODO: maybe add difficulty ?
       ElevatedButton(
           onPressed: () {
-            getImage();
-            setState(() {});
+            puzzleNotifier.choosePurrle(selectedImg!);
+            viewIndexNotifier.changeIndex(3);
           },
-          child: isLoadingImg
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : const Text('Split the image !')),
-      ElevatedButton(
-          onPressed: () => notifier.changeIndex(4),
           child: const Text('Start !')),
     ]);
-  }
-
-  void getImage() async {
-    XFile? xImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    var bytes = await xImage!.readAsBytes();
-
-    // Image zinzin;
-    // // 1) Xfile to Image for web càd sans dart:io
-    // if (kIsWeb) {
-    //   zinzin = Image.network(xImage!.path);
-    // } else {
-    //   zinzin = Image.file(File(xImage!.path));
-    // }
-
-    // 2) Image widget from flutter to Imglib.image du package Image
-    setState(() {
-      isLoadingImg = true;
-    });
-    log('converting image to bytes');
-
-    log('image converted to bytes !');
-
-    setState(() {
-      imagePieces = splitImage(
-          inputImage: bytes, horizontalPieceCount: 2, verticalPieceCount: 2);
-    });
-    inspect(imagePieces);
   }
 }

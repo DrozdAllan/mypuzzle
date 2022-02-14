@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
 import 'package:mypuzzle/screens/game.dart';
-import 'package:mypuzzle/screens/import_puzzle.dart';
 import 'package:mypuzzle/screens/random_puzzle.dart';
 import 'package:mypuzzle/screens/stats.dart';
 
@@ -20,7 +19,6 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     with SingleTickerProviderStateMixin {
   final List<Widget> screens = const <Widget>[
     RandomPuzzle(),
-    ImportPuzzle(),
     Stats(),
     About(),
     Game(),
@@ -84,6 +82,7 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
         height: MediaQuery.of(context).size.height,
         color: Colors.blue[50],
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const FlutterLogo(
               size: 64.0,
@@ -94,9 +93,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
                 notifier.changeIndex(0);
               },
               child: Text(
-                'Random Puzzle',
+                'Game',
                 style: TextStyle(
-                    color: widget.index == 0 ? Colors.blue : Colors.black),
+                    color: widget.index == 0 ? Colors.blue : Colors.black,
+                    fontSize: 34.0),
               ),
             ),
             TextButton(
@@ -105,9 +105,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
                 notifier.changeIndex(1);
               },
               child: Text(
-                'Import Puzzle',
+                'Stats',
                 style: TextStyle(
-                    color: widget.index == 1 ? Colors.blue : Colors.black),
+                    color: widget.index == 1 ? Colors.blue : Colors.black,
+                    fontSize: 34.0),
               ),
             ),
             TextButton(
@@ -116,20 +117,10 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
                 notifier.changeIndex(2);
               },
               child: Text(
-                'Stats',
-                style: TextStyle(
-                    color: widget.index == 2 ? Colors.blue : Colors.black),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                _controller.forward().whenComplete(() => _controller.reset());
-                notifier.changeIndex(3);
-              },
-              child: Text(
                 'About',
                 style: TextStyle(
-                    color: widget.index == 3 ? Colors.blue : Colors.black),
+                    color: widget.index == 2 ? Colors.blue : Colors.black,
+                    fontSize: 34.0),
               ),
             ),
           ],
