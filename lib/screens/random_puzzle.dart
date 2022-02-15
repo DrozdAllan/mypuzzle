@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/providers/puzzle_provider.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
+import 'package:mypuzzle/screens/game.dart';
 
 class RandomPuzzle extends ConsumerStatefulWidget {
   const RandomPuzzle({Key? key}) : super(key: key);
@@ -16,7 +17,6 @@ class RandomPuzzle extends ConsumerStatefulWidget {
 }
 
 class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
-  bool isLoadingImg = false;
   int? selectedImg;
 
   @override
@@ -81,7 +81,8 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
       // TODO: maybe add difficulty ?
       ElevatedButton(
           onPressed: () {
-            puzzleNotifier.choosePurrle(selectedImg!);
+            puzzleNotifier.choosePuzzle(selectedImg!);
+            // TODO: add a notifier for difficulty too
             viewIndexNotifier.changeIndex(3);
           },
           child: const Text('Start !')),
