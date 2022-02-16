@@ -81,7 +81,7 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
       // TODO: maybe add difficulty ?
       ElevatedButton(
           onPressed: () {
-            puzzleNotifier.choosePuzzle(selectedImg!);
+            // puzzleNotifier.choosePuzzle(selectedImg!);
             // TODO: add a notifier for difficulty too
             viewIndexNotifier.changeIndex(3);
           },
