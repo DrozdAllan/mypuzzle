@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:developer';
 
 class Tile {
   final int xPosition;
@@ -19,11 +19,4 @@ class Tile {
   set status(String newStatus) {
     status = newStatus;
   }
-}
-
-class TileSet {
-  final List<Tile> tileSetList;
-  TileSet({
-    required this.tileSetList,
-  });
 }

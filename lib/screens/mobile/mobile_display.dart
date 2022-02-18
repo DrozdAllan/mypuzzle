@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/screens/about.dart';
-import 'package:mypuzzle/screens/game.dart';
-import 'package:mypuzzle/screens/import_puzzle.dart';
-import 'package:mypuzzle/screens/random_puzzle.dart';
+import 'package:mypuzzle/screens/board.dart';
+import 'package:mypuzzle/screens/home.dart';
 import 'package:mypuzzle/screens/stats.dart';
 
 class MobileDisplay extends ConsumerStatefulWidget {
@@ -22,7 +21,7 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
     RandomPuzzle(),
     Stats(),
     About(),
-    Game(),
+    Board(),
   ];
 
   void toggle() => widget.controller.isDismissed

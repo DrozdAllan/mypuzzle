@@ -11,6 +11,18 @@ final puzzleProvider = StateNotifierProvider<PuzzleProvider, List<Tile>>(
 class PuzzleProvider extends StateNotifier<List<Tile>> {
   PuzzleProvider() : super(_puzzleChoice);
 
+  static final List tiles = [
+    'blank',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+    'incorrect',
+  ];
+
   static final List<Tile> _puzzleChoice = [
     Tile(xPosition: 0, yPosition: 0, status: 'blank'),
     Tile(xPosition: 1, yPosition: 0, status: 'incorrect'),
