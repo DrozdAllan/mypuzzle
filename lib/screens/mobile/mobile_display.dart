@@ -53,7 +53,10 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
                     onPressed: () {
                       toggle();
                     },
-                    icon: const Icon(Icons.bubble_chart)),
+                    icon: Icon(
+                      Icons.bubble_chart,
+                      color: Colors.blue[200],
+                    )),
           ),
           body: Container(
               color: Colors.blue[200], child: screens.elementAt(widget.index)),

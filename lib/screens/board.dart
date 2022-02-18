@@ -1,10 +1,7 @@
 import 'dart:async';
-import 'dart:developer' as Dev;
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mypuzzle/widgets/grid.dart';
-import 'package:mypuzzle/widgets/menu.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/models/tile.dart';
@@ -19,32 +16,20 @@ class Board extends ConsumerStatefulWidget {
 }
 
 class _BoardState extends ConsumerState<Board> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          SizedBox(width: 100, height: 100, child: Placeholder()),
-          SizedBox(width: 100, height: 100, child: Placeholder()),
-        ],
-      ),
-      const _BoardGrid(),
-    ]);
-  }
-}
+  List<int> numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-class _BoardGrid extends ConsumerStatefulWidget {
-  const _BoardGrid({
-    Key? key,
-  }) : super(key: key);
+  List<Tile> tileSet = [
+    Tile(correctPosition: 0, imagePath: 'puzzles/frodondejardin/easy/00.png'),
+    Tile(correctPosition: 1, imagePath: 'puzzles/frodondejardin/easy/01.png'),
+    Tile(correctPosition: 2, imagePath: 'puzzles/frodondejardin/easy/02.png'),
+    Tile(correctPosition: 3, imagePath: 'puzzles/frodondejardin/easy/03.png'),
+    Tile(correctPosition: 4, imagePath: 'puzzles/frodondejardin/easy/04.png'),
+    Tile(correctPosition: 5, imagePath: 'puzzles/frodondejardin/easy/05.png'),
+    Tile(correctPosition: 6, imagePath: 'puzzles/frodondejardin/easy/06.png'),
+    Tile(correctPosition: 7, imagePath: 'puzzles/frodondejardin/easy/07.png'),
+    Tile(correctPosition: 8, imagePath: 'puzzles/frodondejardin/easy/08.png'),
+  ];
 
-  @override
-  __BoardGridState createState() => __BoardGridState();
-}
-
-class __BoardGridState extends ConsumerState<_BoardGrid> {
-  var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
   int move = 0;
 
   static const duration = Duration(seconds: 1);
@@ -55,53 +40,154 @@ class __BoardGridState extends ConsumerState<_BoardGrid> {
   @override
   void initState() {
     super.initState();
-    numbers.shuffle();
+    // numbers.shuffle();
+    tileSet.shuffle();
+  }
+
+  @override
+  void dispose() {
+    timer!.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    imageCache!.clear();
+    imageCache!.clearLiveImages();
     Size size = MediaQuery.of(context).size;
+    bool isMobile =
+        MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
     timer ??= timer = Timer.periodic(duration, (Timer t) {
       startTime();
     });
 
-    return SafeArea(
-      child: Container(
-        height: size.height,
-        color: Colors.blue,
-        child: Column(
-          children: <Widget>[
-            Text(
-              "Sliding Puzzle",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: size.height * 0.050,
-                  color: Colors.white,
-                  decoration: TextDecoration.none),
+    return Container(
+      height: size.height,
+      color: Colors.blue[200],
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: size.height * 0.10,
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    reset();
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                  ),
+                  child: const Text("Reset"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: Text(
+                    "Move: $move",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        decoration: TextDecoration.none,
+                        fontSize: 18),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: Text(
+                    "Time: $secondsPassed",
+                    style: const TextStyle(
+                      fontSize: 18,
+                      decoration: TextDecoration.none,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Grid(numbers: numbers, size: size, clickGrid: clickGrid),
-            Menu(
-                reset: reset,
-                move: move,
-                secondsPassed: secondsPassed,
-                size: size),
-          ],
-        ),
+          ),
+          Container(
+            height: size.height * 0.80,
+            width: isMobile ? size.width * 0.75 : size.width * 0.35,
+            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 1.0,
+                crossAxisCount: 3,
+                mainAxisSpacing: 5.0,
+                crossAxisSpacing: 5.0,
+              ),
+              //   itemCount: numbers.length,
+              itemCount: tileSet.length,
+              itemBuilder: (context, index) {
+                return numbers[index] != 0
+                    // TODO: LATER !!! replace 0 with rand(9) to change the piece being removed
+                    // tileSet[index].correctPosition != 0
+                    ? ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.green),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                        onPressed: () {
+                          clickGrid(index);
+                        },
+                        // TODO: change this to be images
+                        child: Text(numbers[index].toString()),
+                        //     Image.asset(
+                        //   tileSet[index].imagePath,
+                        //   height: 150.0,
+                        //   fit: BoxFit.fill,
+                        // ),
+                      )
+                    : const SizedBox.shrink();
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void clickGrid(index) {
+  clickGrid(index) {
+    inspect(tileSet);
     if (secondsPassed == 0) {
       isActive = true;
     }
-    if (index - 1 >= 0 && numbers[index - 1] == 0 && index % 4 != 0 ||
-        index + 1 < 16 && numbers[index + 1] == 0 && (index + 1) % 4 != 0 ||
-        (index - 4 >= 0 && numbers[index - 4] == 0) ||
-        (index + 4 < 16 && numbers[index + 4] == 0)) {
+    // if (index - 1 >= 0 &&
+    //         tileSet[index - 1].correctPosition == 0 &&
+    //         index % 3 != 0 ||
+    //     index + 1 <= 8 &&
+    //         tileSet[index + 1].correctPosition == 0 &&
+    //         (index + 1) % 3 != 0 ||
+    //     (index - 3 >= 0 && tileSet[index - 3].correctPosition == 0) ||
+    //     (index + 3 <= 8 && tileSet[index + 3].correctPosition == 0)) {
+    //   setState(() {
+    //     move++;
+    //     // TODO: use indexOf or another method to retrieve the index of the Tile being correctPosition: 0
+    //     tileSet[tileSet.indexOf(Tile(correctPosition: 0))].correctPosition =
+    //         tileSet[index].correctPosition;
+    //     tileSet[index].correctPosition = 0;
+    //   });
+    // }
+    if (index - 1 >= 0 && numbers[index - 1] == 0 && index % 3 != 0 ||
+        index + 1 <= 8 && numbers[index + 1] == 0 && (index + 1) % 3 != 0 ||
+        (index - 3 >= 0 && numbers[index - 3] == 0) ||
+        (index + 3 <= 8 && numbers[index + 3] == 0)) {
       setState(() {
         move++;
+        // TODO: indexOf will search for the index of the element being 0
         numbers[numbers.indexOf(0)] = numbers[index];
+        // numbers[numbers.indexOf(0)] = numbers[index];
         numbers[index] = 0;
       });
     }
@@ -125,10 +211,10 @@ class __BoardGridState extends ConsumerState<_BoardGrid> {
     });
   }
 
-  bool isSorted(List list) {
-    int prev = list.first;
+  bool isSorted(List<Tile> list) {
+    int prev = list.first.correctPosition;
     for (var i = 1; i < list.length - 1; i++) {
-      int next = list[i];
+      int next = list[i].correctPosition;
       if (prev > next) return false;
       prev = next;
     }
@@ -136,14 +222,14 @@ class __BoardGridState extends ConsumerState<_BoardGrid> {
   }
 
   void checkWin() {
-    if (isSorted(numbers)) {
+    if (isSorted(tileSet)) {
       isActive = false;
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return Dialog(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0)), //this right here
+                  borderRadius: BorderRadius.circular(20.0)),
               child: SizedBox(
                 height: 200,
                 child: Padding(

@@ -1,11 +1,7 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/providers/puzzle_provider.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
-import 'package:mypuzzle/screens/board.dart';
 
 class RandomPuzzle extends ConsumerStatefulWidget {
   const RandomPuzzle({Key? key}) : super(key: key);
@@ -22,7 +18,7 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
   @override
   Widget build(BuildContext context) {
     final viewIndexNotifier = ref.read(viewIndexProvider.notifier);
-    final puzzleNotifier = ref.read(puzzleProvider.notifier);
+    // final puzzleNotifier = ref.read(puzzleProvider.notifier);
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       const Padding(
         padding: EdgeInsets.symmetric(vertical: 24.0),
@@ -82,10 +78,9 @@ class _RandomPuzzleState extends ConsumerState<RandomPuzzle> {
       ElevatedButton(
           onPressed: () {
             // puzzleNotifier.choosePuzzle(selectedImg!);
-            // TODO: add a notifier for difficulty too
-            // viewIndexNotifier.changeIndex(3);
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Board()));
+            viewIndexNotifier.changeIndex(3);
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (context) => Board()));
           },
           child: const Text('Start !')),
     ]);
