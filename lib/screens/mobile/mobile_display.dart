@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/screens/about.dart';
 import 'package:mypuzzle/screens/board.dart';
-import 'package:mypuzzle/screens/home.dart';
 import 'package:mypuzzle/screens/stats.dart';
 
 class MobileDisplay extends ConsumerStatefulWidget {
@@ -18,10 +17,9 @@ class MobileDisplay extends ConsumerStatefulWidget {
 
 class _MobileDisplayState extends ConsumerState<MobileDisplay> {
   final List<Widget> screens = const <Widget>[
-    RandomPuzzle(),
+    Board(),
     Stats(),
     About(),
-    Board(),
   ];
 
   void toggle() => widget.controller.isDismissed
@@ -54,9 +52,12 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
                       toggle();
                     },
                     icon: Icon(
-                      Icons.bubble_chart,
+                      Icons.menu_rounded,
                       color: Colors.blue[200],
-                    )),
+                    ),
+                    splashRadius: 25.0,
+                    hoverColor: Colors.green,
+                  ),
           ),
           body: Container(
               color: Colors.blue[200], child: screens.elementAt(widget.index)),

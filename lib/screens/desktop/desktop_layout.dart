@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
 import 'package:mypuzzle/screens/about.dart';
 import 'package:mypuzzle/screens/board.dart';
-import 'package:mypuzzle/screens/home.dart';
 import 'package:mypuzzle/screens/stats.dart';
 
 class DesktopLayout extends ConsumerStatefulWidget {
@@ -18,10 +17,9 @@ class DesktopLayout extends ConsumerStatefulWidget {
 class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     with SingleTickerProviderStateMixin {
   final List<Widget> screens = const <Widget>[
-    RandomPuzzle(),
+    Board(),
     Stats(),
     About(),
-    Board(),
   ];
 
   @override
