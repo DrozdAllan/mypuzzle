@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mypuzzle/database/hive_db.dart';
 import 'package:mypuzzle/screens/wrapper.dart';
 import 'package:mypuzzle/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await HiveDb.init();
   runApp(
     const ProviderScope(
       child: MyApp(),

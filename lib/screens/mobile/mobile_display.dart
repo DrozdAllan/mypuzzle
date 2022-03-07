@@ -41,6 +41,8 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
             bottomLeft: Radius.circular(100.0 * widget.controller.value)),
         child: Scaffold(
           appBar: AppBar(
+            // need to make the color change fading maybe add an animation
+            // https://docs.flutter.dev/cookbook/animation/opacity-animation
             backgroundColor: widget.controller.value > 0.4
                 ? Colors.blue[200]
                 : Colors.blue[50],

@@ -163,7 +163,7 @@ class WaveClipper extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper oldClipper) => true;
 
   void _makeSinewave(Size size) {
-    final amplitude = size.width / 16;
+    final amplitude = size.width / 25 + (5 * sin(controllerValue));
     final xOffset = amplitude;
 
     for (int x = 0; x < size.height.toInt(); x++) {

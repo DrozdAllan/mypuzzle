@@ -4,7 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mypuzzle/database/hive_db.dart';
+import 'package:mypuzzle/models/stat.dart';
 import 'package:mypuzzle/models/tile.dart';
+import 'package:mypuzzle/services/database_service.dart';
 
 class Board extends ConsumerStatefulWidget {
   const Board({Key? key}) : super(key: key);
@@ -55,12 +58,27 @@ class _BoardState extends ConsumerState<Board> {
       child: Column(
         children: <Widget>[
           Container(
-            height: size.height * 0.10,
-            padding: const EdgeInsets.all(20.0),
+            height: size.height * 0.20,
+            padding: const EdgeInsets.all(0.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               //   crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Text(
+                  "Move : $move",
+                  style: const TextStyle(
+                      color: Colors.white,
+                      decoration: TextDecoration.none,
+                      fontSize: 24),
+                ),
+                Text(
+                  "Time : $secondsPassed s",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    decoration: TextDecoration.none,
+                    color: Colors.white,
+                  ),
+                ),
                 ElevatedButton(
                   onPressed: () {
                     reset();
@@ -73,30 +91,19 @@ class _BoardState extends ConsumerState<Board> {
                       ),
                     ),
                   ),
-                  child: const Text("Reset"),
-                ),
-                Text(
-                  "Move : $move",
-                  style: const TextStyle(
-                      color: Colors.white,
-                      decoration: TextDecoration.none,
-                      fontSize: 18),
-                ),
-                Text(
-                  "Time : $secondsPassed",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    decoration: TextDecoration.none,
-                    color: Colors.white,
+                  child: const Text(
+                    "Reset",
+                    style: TextStyle(fontSize: 24.0),
                   ),
                 ),
               ],
             ),
           ),
           Container(
-            height: size.height * 0.80,
+            // size of the board
+            height: isMobile ? size.height * 0.55 : size.height * 0.75,
             width: isMobile ? size.width * 0.75 : size.width * 0.35,
-            padding: const EdgeInsets.symmetric(vertical: 25.0),
+            padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 1.0,
@@ -110,7 +117,7 @@ class _BoardState extends ConsumerState<Board> {
                     ? ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.green),
+                              MaterialStateProperty.all(Colors.blue[50]),
                           shape: MaterialStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -120,7 +127,11 @@ class _BoardState extends ConsumerState<Board> {
                         onPressed: () {
                           clickGrid(index);
                         },
-                        child: Text(numbers[index].toString()),
+                        child: Text(
+                          numbers[index].toString(),
+                          style: const TextStyle(
+                              color: Colors.blue, fontSize: 40.0),
+                        ),
                       )
                     : const SizedBox.shrink();
               },
@@ -177,7 +188,9 @@ class _BoardState extends ConsumerState<Board> {
 
   void checkWin() {
     if (isSorted(numbers)) {
-      // TODO: register move and time in stats
+      // register move and time in stats
+      var stat = Stat(moves: move, time: secondsPassed, date: DateTime.now());
+      DatabaseService().addToBox(stat);
       isActive = false;
       showDialog(
         context: context,
