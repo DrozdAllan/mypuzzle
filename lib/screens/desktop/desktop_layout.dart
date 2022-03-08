@@ -16,6 +16,7 @@ class DesktopLayout extends ConsumerStatefulWidget {
 
 class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     with SingleTickerProviderStateMixin {
+  // TODO: is it possible to add a pageroute animations with animations package ?
   final List<Widget> screens = const <Widget>[
     Board(),
     Stats(),
@@ -40,7 +41,6 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
   }
 }
 
-// TODO: add more smooth style to the wave
 class WavedDrawer extends ConsumerStatefulWidget {
   final int index;
   final Size size;

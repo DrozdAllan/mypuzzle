@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mypuzzle/database/hive_db.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mypuzzle/models/stat.dart';
-import 'package:mypuzzle/models/tile.dart';
 import 'package:mypuzzle/services/database_service.dart';
 
 class Board extends ConsumerStatefulWidget {
@@ -62,20 +60,15 @@ class _BoardState extends ConsumerState<Board> {
             padding: const EdgeInsets.all(0.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
                   "Move : $move",
-                  style: const TextStyle(
-                      color: Colors.white,
-                      decoration: TextDecoration.none,
-                      fontSize: 24),
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 Text(
                   "Time : $secondsPassed s",
                   style: const TextStyle(
                     fontSize: 24,
-                    decoration: TextDecoration.none,
                     color: Colors.white,
                   ),
                 ),
@@ -84,7 +77,7 @@ class _BoardState extends ConsumerState<Board> {
                     reset();
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.red),
+                    backgroundColor: MaterialStateProperty.all(Colors.blue[50]),
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0),
@@ -93,7 +86,7 @@ class _BoardState extends ConsumerState<Board> {
                   ),
                   child: const Text(
                     "Reset",
-                    style: TextStyle(fontSize: 24.0),
+                    style: TextStyle(fontSize: 24.0, color: Colors.blue),
                   ),
                 ),
               ],
@@ -101,7 +94,7 @@ class _BoardState extends ConsumerState<Board> {
           ),
           Container(
             // size of the board
-            height: isMobile ? size.height * 0.55 : size.height * 0.75,
+            height: isMobile ? size.height * 0.60 : size.height * 0.75,
             width: isMobile ? size.width * 0.75 : size.width * 0.35,
             padding: const EdgeInsets.symmetric(vertical: 0.0),
             child: GridView.builder(
@@ -200,31 +193,42 @@ class _BoardState extends ConsumerState<Board> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             child: SizedBox(
-              height: 200,
-              child: Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "You Win!!",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    SizedBox(
-                      width: 220.0,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text(
-                          "Close",
-                          style: TextStyle(color: Colors.white),
-                        ),
+              height: 120,
+              width: 400,
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Lottie.asset('assets/animations/confetti-left.json',
+                          width: 75, height: 75, fit: BoxFit.fill),
+                      const Text(
+                        "Congratulations, you win !",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 20),
                       ),
-                    )
-                  ],
-                ),
+                      Lottie.asset('assets/animations/confetti-right.json',
+                          width: 75, height: 75, fit: BoxFit.fill),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 220.0,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue[200])),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Close",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           );

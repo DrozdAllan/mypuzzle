@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);
@@ -10,15 +12,48 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  static const String _url = 'https://allandrozd.com';
+  static const String _animCredit = 'https://lottiefiles.com/user/284169';
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 24.0),
-            child: Text("About maybe wont be implemented"),
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      const Padding(
+        padding: EdgeInsets.symmetric(vertical: 24.0),
+        child: Text(
+          "About this app",
+          style: TextStyle(color: Colors.white, fontSize: 36.0),
+        ),
+      ),
+      SizedBox(
+        width: 700,
+        height: 500,
+        child: RichText(
+          text: TextSpan(
+            text: "This app is made by ",
+            style: const TextStyle(color: Colors.white, fontSize: 20.0),
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'Allan Drozd',
+                  style: const TextStyle(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(_url);
+                    }),
+              const TextSpan(
+                  text: ' for the Flutter Hackaton of March 2022 \n\n'),
+              const TextSpan(text: 'Confettis animations by '),
+              TextSpan(
+                  text: 'Zandre Coetzer',
+                  style: const TextStyle(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launch(_animCredit);
+                    }),
+            ],
           ),
-        ]);
+        ),
+      ),
+    ]);
   }
 }

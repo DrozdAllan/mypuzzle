@@ -32,49 +32,61 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
           width: MediaQuery.of(context).size.width * 0.35,
           height: MediaQuery.of(context).size.height,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const FlutterLogo(
-                size: 80.0,
-              ),
-              ListTile(
-                title: Text(
-                  'Game',
-                  style: TextStyle(
-                      color: widget.index == 0 ? Colors.blue : Colors.black,
-                      fontSize: 36),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 28.0),
+                child: FlutterLogo(
+                  size: 60.0,
                 ),
-                onTap: () {
-                  toggle();
-
-                  notifier.changeIndex(0);
-                },
               ),
-              ListTile(
-                title: Text(
-                  'Stats',
-                  style: TextStyle(
-                      color: widget.index == 1 ? Colors.blue : Colors.black,
-                      fontSize: 36),
-                ),
-                onTap: () {
-                  toggle();
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: ListTile(
+                  title: Text(
+                    'Game',
+                    style: TextStyle(
+                        color: widget.index == 0 ? Colors.blue : Colors.black,
+                        fontSize: 36),
+                  ),
+                  onTap: () {
+                    toggle();
 
-                  notifier.changeIndex(1);
-                },
+                    notifier.changeIndex(0);
+                  },
+                ),
               ),
-              ListTile(
-                title: Text(
-                  'About',
-                  style: TextStyle(
-                      color: widget.index == 2 ? Colors.blue : Colors.black,
-                      fontSize: 36),
-                ),
-                onTap: () {
-                  toggle();
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: ListTile(
+                  title: Text(
+                    'Stats',
+                    style: TextStyle(
+                        color: widget.index == 1 ? Colors.blue : Colors.black,
+                        fontSize: 36),
+                  ),
+                  onTap: () {
+                    toggle();
 
-                  notifier.changeIndex(2);
-                },
+                    notifier.changeIndex(1);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                child: ListTile(
+                  title: Text(
+                    'About',
+                    style: TextStyle(
+                        color: widget.index == 2 ? Colors.blue : Colors.black,
+                        fontSize: 36),
+                  ),
+                  onTap: () {
+                    toggle();
+
+                    notifier.changeIndex(2);
+                  },
+                ),
               ),
             ],
           ),
@@ -98,7 +110,7 @@ class ClosingWave extends CustomPainter {
       ..strokeWidth = 1.0
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
-      ..color = Colors.blue[200]!
+      ..color = Colors.blue[100]!
       ..style = PaintingStyle.fill;
 
     final Rect myRect = Offset(175.0 * controller.value, 0.0) &
