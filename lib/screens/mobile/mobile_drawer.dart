@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mypuzzle/providers/view_index_provider.dart';
 
 class MobileDrawer extends ConsumerStatefulWidget {
+  final GlobalKey<NavigatorState> navigationKey;
   final int index;
   final AnimationController controller;
 
   const MobileDrawer({
+    required this.navigationKey,
     required this.index,
     required this.controller,
     Key? key,
@@ -51,7 +53,7 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
                   ),
                   onTap: () {
                     toggle();
-
+                    widget.navigationKey.currentState!.pushNamed('/board');
                     notifier.changeIndex(0);
                   },
                 ),
@@ -67,7 +69,7 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
                   ),
                   onTap: () {
                     toggle();
-
+                    widget.navigationKey.currentState!.pushNamed('/stats');
                     notifier.changeIndex(1);
                   },
                 ),
@@ -83,7 +85,7 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
                   ),
                   onTap: () {
                     toggle();
-
+                    widget.navigationKey.currentState!.pushNamed('/about');
                     notifier.changeIndex(2);
                   },
                 ),

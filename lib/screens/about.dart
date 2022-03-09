@@ -22,7 +22,10 @@ class _AboutState extends State<About> {
         padding: EdgeInsets.symmetric(vertical: 24.0),
         child: Text(
           "About this app",
-          style: TextStyle(color: Colors.white, fontSize: 36.0),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 42.0,
+          ),
         ),
       ),
       SizedBox(
@@ -35,7 +38,14 @@ class _AboutState extends State<About> {
             children: <TextSpan>[
               TextSpan(
                   text: 'Allan Drozd',
-                  style: const TextStyle(decoration: TextDecoration.underline),
+                  style: const TextStyle(
+                    color: Colors.transparent,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.white,
+                    shadows: [
+                      Shadow(offset: Offset(0, -2), color: Colors.white)
+                    ],
+                  ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       launch(_url);
@@ -45,7 +55,14 @@ class _AboutState extends State<About> {
               const TextSpan(text: 'Confettis animations by '),
               TextSpan(
                   text: 'Zandre Coetzer',
-                  style: const TextStyle(decoration: TextDecoration.underline),
+                  style: const TextStyle(
+                    color: Colors.transparent,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.white,
+                    shadows: [
+                      Shadow(offset: Offset(0, -2), color: Colors.white)
+                    ],
+                  ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       launch(_animCredit);

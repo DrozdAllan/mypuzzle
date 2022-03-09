@@ -5,10 +5,15 @@ import 'package:mypuzzle/screens/board.dart';
 import 'package:mypuzzle/screens/stats.dart';
 
 class MobileDisplay extends ConsumerStatefulWidget {
+  final GlobalKey<NavigatorState> navigationKey;
   final int index;
   final AnimationController controller;
 
-  const MobileDisplay({required this.index, required this.controller, Key? key})
+  const MobileDisplay(
+      {required this.navigationKey,
+      required this.index,
+      required this.controller,
+      Key? key})
       : super(key: key);
 
   @override
@@ -16,11 +21,15 @@ class MobileDisplay extends ConsumerStatefulWidget {
 }
 
 class _MobileDisplayState extends ConsumerState<MobileDisplay> {
-  final List<Widget> screens = const <Widget>[
-    Board(),
-    Stats(),
-    About(),
-  ];
+  String routename() {
+    if (widget.index == 0) {
+      return Board.routeName;
+    } else if (widget.index == 1) {
+      return Stats.routeName;
+    } else {
+      return About.routeName;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +47,34 @@ class _MobileDisplayState extends ConsumerState<MobileDisplay> {
         child: Scaffold(
           appBar: AnimatedAppBar(controller: widget.controller),
           body: Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.blue[200],
-              child: screens.elementAt(widget.index)),
+            width: MediaQuery.of(context).size.width,
+            color: Colors.blue[200],
+            child: Navigator(
+              key: widget.navigationKey,
+              initialRoute: routename(),
+              onGenerateRoute: (RouteSettings routeSettings) {
+                switch (routeSettings.name) {
+                  case Board.routeName: // '/board'
+                    return MaterialPageRoute(
+                        builder: (context) => const Board());
+                  case Stats.routeName: // '/stats'
+                    return MaterialPageRoute(
+                        builder: (context) => const Stats());
+                  case About.routeName: // '/about'
+                    return MaterialPageRoute(
+                        builder: (context) => const About());
+                  default:
+                    return MaterialPageRoute(
+                      builder: (context) => const Scaffold(
+                        body: Center(
+                          child: Text('Page not found'),
+                        ),
+                      ),
+                    );
+                }
+              },
+            ),
+          ),
         ),
       ),
     );
@@ -88,6 +122,14 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                 ),
                 splashRadius: 25.0,
               ),
+        title: Text(
+          // TODO: change font
+          'Water Puzzle',
+          style: TextStyle(
+              color:
+                  widget.controller.value > 0.5 ? Colors.white : Colors.blue),
+        ),
+        centerTitle: true,
       ),
     );
   }

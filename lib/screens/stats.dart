@@ -14,6 +14,7 @@ class Stats extends StatefulWidget {
 
 class _StatsState extends State<Stats> {
   var box = HiveDb.statBox;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +23,46 @@ class _StatsState extends State<Stats> {
         padding: EdgeInsets.symmetric(vertical: 24.0),
         child: Text(
           "Your previous puzzles",
-          style: TextStyle(color: Colors.white, fontSize: 36.0),
+          style: TextStyle(color: Colors.white, fontSize: 42.0),
         ),
       ),
       SizedBox(
-        width: 500,
+        width: 600,
         height: 500,
         child: ValueListenableBuilder(
           valueListenable: box!.listenable(),
           builder: (context, Box box, _) {
             List stats = box.values.toList().reversed.toList();
-            return ListView.builder(
-              itemCount: stats.length,
-              itemBuilder: (BuildContext context, int listIndex) {
-                return ListTile(
-                  title: Text(
-                    DateFormat.yMd().add_Hm().format(stats[listIndex].date),
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  subtitle: Text(
-                    'This puzzle was resolved in ' +
-                        stats[listIndex].time.toString() +
-                        ' seconds and ' +
-                        stats[listIndex].moves.toString() +
-                        ' moves',
-                    style: const TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                );
-              },
+            return Scrollbar(
+              isAlwaysShown: true,
+              controller: _scrollController,
+              child: ListView.builder(
+                controller: _scrollController,
+                itemCount: stats.length,
+                itemBuilder: (BuildContext context, int listIndex) {
+                  return ListTile(
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 18.0),
+                    title: Text(
+                      DateFormat.yMd().add_Hm().format(stats[listIndex].date),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                    subtitle: Text(
+                      'This puzzle was resolved in ' +
+                          stats[listIndex].time.toString() +
+                          ' seconds and ' +
+                          stats[listIndex].moves.toString() +
+                          ' moves',
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),

@@ -16,25 +16,60 @@ class DesktopLayout extends ConsumerStatefulWidget {
 
 class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     with SingleTickerProviderStateMixin {
-  // TODO: is it possible to add a pageroute animations with animations package ?
-  final List<Widget> screens = const <Widget>[
-    Board(),
-    Stats(),
-    About(),
-  ];
+  final navigationKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
     final int index = ref.watch(viewIndexProvider);
+
+    String routename() {
+      if (index == 0) {
+        return Board.routeName;
+      } else if (index == 1) {
+        return Stats.routeName;
+      } else {
+        return About.routeName;
+      }
+    }
+
     return Scaffold(
-      backgroundColor: Colors.blue[200],
+      // TODO: not yet decided the color
+      //   backgroundColor: Colors.blue[300],
+      backgroundColor: Colors.lightBlueAccent,
       body: Row(
         children: [
           WavedDrawer(
+            navigationKey,
             index,
             Size(300.0, MediaQuery.of(context).size.height),
           ),
-          Expanded(child: screens.elementAt(index)),
+          Expanded(
+            child: Navigator(
+              key: navigationKey,
+              initialRoute: routename(),
+              onGenerateRoute: (RouteSettings routeSettings) {
+                switch (routeSettings.name) {
+                  case Board.routeName: // '/board'
+                    return MaterialPageRoute(
+                        builder: (context) => const Board());
+                  case Stats.routeName: // '/stats'
+                    return MaterialPageRoute(
+                        builder: (context) => const Stats());
+                  case About.routeName: // '/about'
+                    return MaterialPageRoute(
+                        builder: (context) => const About());
+                  default:
+                    return MaterialPageRoute(
+                      builder: (context) => const Scaffold(
+                        body: Center(
+                          child: Text('Page not found'),
+                        ),
+                      ),
+                    );
+                }
+              },
+            ),
+          ),
         ],
       ),
     );
@@ -42,9 +77,11 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
 }
 
 class WavedDrawer extends ConsumerStatefulWidget {
+  final GlobalKey<NavigatorState> _navigatorKey;
   final int index;
   final Size size;
-  const WavedDrawer(this.index, this.size, {Key? key}) : super(key: key);
+  const WavedDrawer(this._navigatorKey, this.index, this.size, {Key? key})
+      : super(key: key);
 
   @override
   _WavedDrawerState createState() => _WavedDrawerState();
@@ -82,12 +119,14 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            // TODO: maybe create a logo ? with puzzle or tetris look ?
             const FlutterLogo(
               size: 64.0,
             ),
             TextButton(
               onPressed: () {
                 _controller.forward().whenComplete(() => _controller.reset());
+                widget._navigatorKey.currentState!.pushNamed('/board');
                 notifier.changeIndex(0);
               },
               child: Text(
@@ -100,6 +139,7 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
             TextButton(
               onPressed: () {
                 _controller.forward().whenComplete(() => _controller.reset());
+                widget._navigatorKey.currentState!.pushNamed('/stats');
                 notifier.changeIndex(1);
               },
               child: Text(
@@ -112,6 +152,7 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
             TextButton(
               onPressed: () {
                 _controller.forward().whenComplete(() => _controller.reset());
+                widget._navigatorKey.currentState!.pushNamed('/about');
                 notifier.changeIndex(2);
               },
               child: Text(

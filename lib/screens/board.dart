@@ -10,7 +10,7 @@ import 'package:mypuzzle/services/database_service.dart';
 class Board extends ConsumerStatefulWidget {
   const Board({Key? key}) : super(key: key);
 
-  static const routeName = '/game';
+  static const routeName = '/board';
 
   @override
   _BoardState createState() => _BoardState();
@@ -18,7 +18,6 @@ class Board extends ConsumerStatefulWidget {
 
 class _BoardState extends ConsumerState<Board> {
   List<int> numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-// TODO: maybe if you want more pieces board : https://www.youtube.com/watch?v=fDj6Eu-5oZE
   int move = 0;
 
   static const duration = Duration(seconds: 1);
@@ -188,7 +187,6 @@ class _BoardState extends ConsumerState<Board> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          // TODO: better style the victory dialog
           return Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
@@ -218,7 +216,7 @@ class _BoardState extends ConsumerState<Board> {
                     child: ElevatedButton(
                       style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.blue[200])),
+                              MaterialStateProperty.all(Colors.blue)),
                       onPressed: () {
                         Navigator.pop(context);
                       },

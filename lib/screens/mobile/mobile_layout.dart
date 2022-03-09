@@ -15,6 +15,7 @@ class MobileLayout extends ConsumerStatefulWidget {
 class _MobileLayoutState extends ConsumerState<MobileLayout>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  final navigationKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -43,8 +44,14 @@ class _MobileLayoutState extends ConsumerState<MobileLayout>
           builder: (context, _) {
             return Stack(
               children: [
-                MobileDrawer(index: index, controller: _controller),
-                MobileDisplay(index: index, controller: _controller),
+                MobileDrawer(
+                    navigationKey: navigationKey,
+                    index: index,
+                    controller: _controller),
+                MobileDisplay(
+                    navigationKey: navigationKey,
+                    index: index,
+                    controller: _controller),
               ],
             );
           }),
