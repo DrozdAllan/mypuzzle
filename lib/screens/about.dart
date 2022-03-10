@@ -25,10 +25,12 @@ class _AboutState extends State<About> {
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
-      SizedBox(
+      Container(
         width: 700,
         height: 500,
+        padding: const EdgeInsets.all(12.0),
         child: RichText(
+          textAlign: TextAlign.center,
           text: TextSpan(
             text: "This app is made by ",
             style: const TextStyle(color: Colors.white, fontSize: 20.0),
