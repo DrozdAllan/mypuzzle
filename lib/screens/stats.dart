@@ -19,11 +19,11 @@ class _StatsState extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      const Padding(
-        padding: EdgeInsets.symmetric(vertical: 24.0),
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24.0),
         child: Text(
           "Your previous puzzles",
-          style: TextStyle(color: Colors.white, fontSize: 42.0),
+          style: Theme.of(context).textTheme.headline1,
         ),
       ),
       SizedBox(

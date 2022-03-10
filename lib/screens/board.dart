@@ -51,7 +51,7 @@ class _BoardState extends ConsumerState<Board> {
 
     return Container(
       height: size.height,
-      color: Colors.blue[200],
+      color: Colors.lightBlueAccent,
       child: Column(
         children: <Widget>[
           Container(
@@ -62,14 +62,11 @@ class _BoardState extends ConsumerState<Board> {
               children: <Widget>[
                 Text(
                   "Move : $move",
-                  style: const TextStyle(color: Colors.white, fontSize: 24),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 Text(
                   "Time : $secondsPassed s",
-                  style: const TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                  ),
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -83,9 +80,12 @@ class _BoardState extends ConsumerState<Board> {
                       ),
                     ),
                   ),
-                  child: const Text(
-                    "Reset",
-                    style: TextStyle(fontSize: 24.0, color: Colors.blue),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: Text(
+                      "Reset",
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
                   ),
                 ),
               ],
@@ -121,8 +121,7 @@ class _BoardState extends ConsumerState<Board> {
                         },
                         child: Text(
                           numbers[index].toString(),
-                          style: const TextStyle(
-                              color: Colors.blue, fontSize: 40.0),
+                          style: Theme.of(context).textTheme.headline5,
                         ),
                       )
                     : const SizedBox.shrink();
@@ -213,16 +212,20 @@ class _BoardState extends ConsumerState<Board> {
                   ),
                   SizedBox(
                     width: 220.0,
+                    height: 30.0,
                     child: ElevatedButton(
                       style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.blue)),
+                          backgroundColor: MaterialStateProperty.all(
+                              Colors.lightBlueAccent)),
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text(
-                        "Close",
-                        style: TextStyle(color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Close",
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ),
                     ),
                   )

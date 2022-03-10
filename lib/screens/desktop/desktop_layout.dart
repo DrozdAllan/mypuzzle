@@ -33,8 +33,6 @@ class _DesktopLayoutState extends ConsumerState<DesktopLayout>
     }
 
     return Scaffold(
-      // TODO: not yet decided the color
-      //   backgroundColor: Colors.blue[300],
       backgroundColor: Colors.lightBlueAccent,
       body: Row(
         children: [
