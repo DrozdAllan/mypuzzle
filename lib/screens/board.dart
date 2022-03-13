@@ -28,8 +28,7 @@ class _BoardState extends ConsumerState<Board> {
   @override
   void initState() {
     super.initState();
-    // TODO: reenable the shuffle when finished
-    // numbers.shuffle();
+    numbers.shuffle();
   }
 
   @override

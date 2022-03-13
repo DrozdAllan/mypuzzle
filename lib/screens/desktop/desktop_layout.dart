@@ -117,9 +117,8 @@ class _WavedDrawerState extends ConsumerState<WavedDrawer>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // TODO: maybe create a logo ? with puzzle or tetris look ?
             const FlutterLogo(
-              size: 64.0,
+              size: 112.0,
             ),
             TextButton(
               onPressed: () {

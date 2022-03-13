@@ -26,44 +26,54 @@ class _StatsState extends State<Stats> {
           style: Theme.of(context).textTheme.headline1,
         ),
       ),
-      SizedBox(
-        width: 600,
+      Container(
+        width: 700,
         height: 500,
+        padding: const EdgeInsets.all(12.0),
         child: ValueListenableBuilder(
           valueListenable: box!.listenable(),
           builder: (context, Box box, _) {
             List stats = box.values.toList().reversed.toList();
-            return Scrollbar(
-              isAlwaysShown: true,
-              controller: _scrollController,
-              child: ListView.builder(
+            if (stats.isEmpty) {
+              return Text(
+                'You don\'t have any previous game in your historic',
+                style: Theme.of(context).textTheme.bodyText1,
+                textAlign: TextAlign.center,
+              );
+            } else {
+              return Scrollbar(
+                isAlwaysShown: true,
                 controller: _scrollController,
-                itemCount: stats.length,
-                itemBuilder: (BuildContext context, int listIndex) {
-                  return ListTile(
-                    contentPadding:
-                        const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 18.0),
-                    title: Text(
-                      DateFormat.yMd().add_Hm().format(stats[listIndex].date),
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    subtitle: Text(
-                      'This puzzle was resolved in ' +
-                          stats[listIndex].time.toString() +
-                          ' seconds and ' +
-                          stats[listIndex].moves.toString() +
-                          ' moves',
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                      textAlign: TextAlign.center,
-                    ),
-                  );
-                },
-              ),
-            );
+                child: ListView.builder(
+                  controller: _scrollController,
+                  itemCount: stats.length,
+                  itemBuilder: (BuildContext context, int listIndex) {
+                    return ListTile(
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 18.0),
+                      title: Text(
+                        DateFormat.yMd().add_Hm().format(stats[listIndex].date),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      subtitle: Text(
+                        'This puzzle was resolved in ' +
+                            stats[listIndex].time.toString() +
+                            ' seconds and ' +
+                            stats[listIndex].moves.toString() +
+                            ' moves',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
           },
         ),
       ),

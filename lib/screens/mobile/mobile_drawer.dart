@@ -39,7 +39,7 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 28.0),
                 child: FlutterLogo(
-                  size: 60.0,
+                  size: 92.0,
                 ),
               ),
               Padding(
