@@ -56,38 +56,50 @@ class _BoardState extends ConsumerState<Board> {
           Container(
             height: size.height * 0.20,
             padding: const EdgeInsets.all(0.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  "Move : $move",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                Text(
-                  "Time : $secondsPassed s",
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    reset();
-                  },
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue[50]),
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+            child: SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  SizedBox(
+                    width: isMobile ? size.width * 0.25 : size.width * 0.10,
+                    child: Text(
+                      "Move : $move",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  SizedBox(
+                    width: isMobile ? size.width * 0.25 : size.width * 0.10,
+                    child: Text(
+                      "Time : $secondsPassed s",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  SizedBox(
+                    width: isMobile ? size.width * 0.25 : size.width * 0.10,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        reset();
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue[50]),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Text(
+                          "Reset",
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
                       ),
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: Text(
-                      "Reset",
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           Container(
@@ -183,6 +195,7 @@ class _BoardState extends ConsumerState<Board> {
       DatabaseService().addToBox(stat);
       isActive = false;
       showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return Dialog(
@@ -218,6 +231,7 @@ class _BoardState extends ConsumerState<Board> {
                               Colors.lightBlueAccent)),
                       onPressed: () {
                         Navigator.pop(context);
+                        reset();
                       },
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4.0),
