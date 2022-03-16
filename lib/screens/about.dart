@@ -17,18 +17,20 @@ class _AboutState extends State<About> {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile =
+        MediaQuery.of(context).size.height > MediaQuery.of(context).size.width;
+
     return Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24.0),
+        padding: const EdgeInsets.symmetric(vertical: 54.0),
         child: Text(
           "About this app",
-          style: Theme.of(context).textTheme.headline1,
+          style: isMobile
+              ? Theme.of(context).textTheme.headline6
+              : Theme.of(context).textTheme.headline1,
         ),
       ),
-      Container(
-        width: 700,
-        height: 500,
-        padding: const EdgeInsets.all(12.0),
+      Expanded(
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(

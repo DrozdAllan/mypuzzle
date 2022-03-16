@@ -31,9 +31,10 @@ ThemeData myTheme = ThemeData(
         fontWeight: FontWeight.w600,
         fontSize: 56,
         color: Colors.white),
-    // headline6: TextStyle(
-    //   fontFamily: josefinSans,
-    //   fontWeight: FontWeight.w600,
-    // ),
+    headline6: TextStyle(
+        fontFamily: josefinSans,
+        fontWeight: FontWeight.w600,
+        fontSize: 36,
+        color: Colors.white),
   ),
 );

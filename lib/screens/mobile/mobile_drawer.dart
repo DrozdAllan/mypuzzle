@@ -30,14 +30,13 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
 
     return AnimatedBuilder(
         animation: widget.controller,
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.35,
-          height: MediaQuery.of(context).size.height,
+        child: Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 28.0),
+                padding: EdgeInsets.all(28.0),
                 child: FlutterLogo(
                   size: 92.0,
                 ),
