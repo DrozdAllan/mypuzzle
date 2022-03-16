@@ -30,7 +30,10 @@ class _AboutState extends State<About> {
               : Theme.of(context).textTheme.headline1,
         ),
       ),
-      Expanded(
+      Container(
+        width: 700,
+        height: isMobile ? 400 : 500,
+        padding: const EdgeInsets.all(12.0),
         child: RichText(
           textAlign: TextAlign.center,
           text: TextSpan(

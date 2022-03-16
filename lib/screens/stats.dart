@@ -29,9 +29,13 @@ class _StatsState extends State<Stats> {
           style: isMobile
               ? Theme.of(context).textTheme.headline6
               : Theme.of(context).textTheme.headline1,
+          textAlign: TextAlign.center,
         ),
       ),
-      Expanded(
+      Container(
+        width: 700,
+        height: isMobile ? 400 : 500,
+        padding: const EdgeInsets.all(12.0),
         child: ValueListenableBuilder(
           valueListenable: box!.listenable(),
           builder: (context, Box box, _) {

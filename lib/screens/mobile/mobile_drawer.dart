@@ -30,7 +30,9 @@ class _MobileDrawerState extends ConsumerState<MobileDrawer> {
 
     return AnimatedBuilder(
         animation: widget.controller,
-        child: Expanded(
+        child: SizedBox(
+          //   width: MediaQuery.of(context).size.width * 0.60,
+          height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
